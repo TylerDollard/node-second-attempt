@@ -79,3 +79,8 @@ function animate() {
 
 // Start the animation loop
 animate();
+// Background
+
+const spaceTexture = new THREE.TextureLoader().load('images/sq.png')
+
+scene.background = spaceTexture;

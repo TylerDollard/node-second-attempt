@@ -89,7 +89,11 @@ function animate() {
 
     renderer.render( scene, camera );
 }
+// Background
 
+const spaceTexture = new THREE.TextureLoader().load('images/sq.png')
+
+scene.background = spaceTexture;
 
 document.querySelector('#app').innerHTML = `
   <div>

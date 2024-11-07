@@ -14,7 +14,7 @@ const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg')
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Load background texture
-const spaceTexture = new THREE.TextureLoader().load('images/sq.png');
+const spaceTexture = new THREE.TextureLoader().load('image/Space.jpg');
 scene.background = spaceTexture;
 
 // Create a cube

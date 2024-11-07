@@ -1,4 +1,3 @@
-// Import dependencies
 import * as THREE from 'https://cdn.skypack.dev/three@0.128.0/build/three.module.js';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/controls/OrbitControls.js';
 
@@ -14,7 +13,7 @@ const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg')
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Load background texture
-const spaceTexture = new THREE.TextureLoader().load('image/Space.jpg');
+const spaceTexture = new THREE.TextureLoader().load('image/Space.jpg'); // Ensure this path is correct
 scene.background = spaceTexture;
 
 // Create a cube

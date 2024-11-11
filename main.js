@@ -1,116 +1,68 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import * as THREE from 'https://cdn.skypack.dev/three@0.128.0/build/three.module.js';
+import { OrbitControls } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/controls/OrbitControls.js';
 
-const controls = new OrbitControls( camera, renderer.domElement );
-const loader = new GLTFLoader();
-import * as THREE from 'three';
-// Setup
-
+// Create the scene
 const scene = new THREE.Scene();
 
+// Set up the camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 50;
 
-
-// create a new renderer by instating the canvas element in our HTML // file
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.querySelector('#bg'),
-});
-renderer.render(scene, camera);
-renderer.setPixelRatio(window.devicePixelRatio);
+// Set up the renderer
+const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg') });
 renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.setZ(50);
-camera.position.setX(-3);
-const geometry = new THREE.BoxGeometry(10, 10, 10);
 
-//set the color of the basic material in the object parameters `{}`
-
-const material = new THREE.MeshBasicMaterial( { color: 0xFF6347 } );
-
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
-cube.position.z = -15;
-cube.position.x = -15;
-cube.rotation.x = 2;
-cube.rotation.y = .5;
-const ico = new THREE.IcosahedronGeometry(10);
-const icoMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-const icoMesh = new THREE.Mesh(ico, icoMaterial);
-
-scene.add(icoMesh);
-
-icoMesh.position.z= -15;
-icoMesh.position.x= 15;
-// Lights
-
-const pointLight = new THREE.PointLight(0xffffff);
-pointLight.position.set(0, -10, 10);
-
-const ambientLight = new THREE.AmbientLight(0xffffff);
-ambientLight.position.set(25, -15, -400);
-
-scene.add(pointLight);
-scene.add(ambientLight);
-function animate() {
-    requestAnimationFrame( animate );
-    // slowly rotate the cube:
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    // rotate the icosahedron a little faster in the opposite direction:
-    icoMesh.rotation.z += -0.03
-    icoMesh.rotation.y += -0.03
-
-    renderer.render( scene, camera );
-}
-animate();
-// Helpers
-
-const lightHelper = new THREE.PointLightHelper(pointLight);
-
-scene.add(lightHelper)
-const gridHelper = new THREE.GridHelper(200,50);
-
-scene.add(gridHelper)
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
-// Orbit Control
-
-    const controls = new OrbitControls(camera, renderer.domElement)
-function animate() {
-    requestAnimationFrame( animate );
-    // slowly rotate the cube:
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    // rotate the icosahedron a little faster in the opposite direction:
-    icoMesh.rotation.z += -0.03
-    icoMesh.rotation.y += -0.03
-    // ALLOWS YOUR ORBIT CONTROLS TO UPDATE LIVE IN REAL-TIME:
-    controls.update()
-
-    renderer.render( scene, camera );
-}
-// Background
-
-const spaceTexture = new THREE.TextureLoader().load('images/sq.png')
-
+// Load background texture
+const spaceTexture = new THREE.TextureLoader().load('image/Space.jpg'); // Ensure this path is correct
 scene.background = spaceTexture;
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+// Create a cube
+const geometry = new THREE.BoxGeometry(10, 10, 10);
+const material = new THREE.MeshBasicMaterial({ color: 0xFF6347 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+cube.position.set(-15, 0, -15);
 
-setupCounter(document.querySelector('#counter'))
+// Create an icosahedron with Phong material
+const icoGeometry = new THREE.IcosahedronGeometry(10);
+const icoMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+const icoMesh = new THREE.Mesh(icoGeometry, icoMaterial);
+scene.add(icoMesh);
+icoMesh.position.set(15, 0, -15);
+
+// Add lights to the scene
+const pointLight = new THREE.PointLight(0xffffff);
+pointLight.position.set(0, -10, 10);
+const ambientLight = new THREE.AmbientLight(0xffffff);
+scene.add(pointLight, ambientLight);
+
+// Add helpers
+const lightHelper = new THREE.PointLightHelper(pointLight);
+const gridHelper = new THREE.GridHelper(200, 50);
+scene.add(lightHelper, gridHelper);
+
+// Set up Orbit Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+
+// Animate the scene
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Slowly rotate the cube
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    // Rotate the icosahedron a little faster in the opposite direction
+    icoMesh.rotation.z -= 0.03;
+    icoMesh.rotation.y -= 0.03;
+
+    // Update controls
+    controls.update();
+
+    // Render the scene from the perspective of the camera
+    renderer.render(scene, camera);
+}
+
+// Start the animation
+animate();
+
